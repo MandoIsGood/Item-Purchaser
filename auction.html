@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction - Cal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Cal Auction</h1>
+        <p>Bid for your chance to own Cal</p>
+    </header>
+    <main>
+        <section class="auction">
+            <div class="auction-info">
+                <h2>Current Highest Bid: $<span id="highestBid">0</span></h2>
+                <input type="number" id="bidAmount" placeholder="Enter your bid" min="1">
+                <button class="bid-button" onclick="placeBid()">Place Bid</button>
+            </div>
+            <div id="bidHistory">
+                <h3>Bid History</h3>
+                <ul id="historyList"></ul>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <h3>Contact Us</h3>
+        <p>Email: <a href="mailto:mandoisgood@gmail.com">mandoisgood@gmail.com</a></p>
+    </footer>
+
+    <script>
+        let highestBid = localStorage.getItem('highestBid') || 0;
+        const highestBidSpan = document.getElementById('highestBid');
+        const historyList = document.getElementById('historyList');
+        
+        highestBidSpan.innerText = highestBid;
+        loadBidHistory();
+
+        function placeBid() {
+            const bidAmount = document.getElementById('bidAmount').value;
+            if (bidAmount > highestBid) {
+                highestBid = bidAmount;
+                highestBidSpan.innerText = highestBid;
+                localStorage.setItem('highestBid', highestBid);
+                addBidToHistory(bidAmount);
+            } else {
+                alert('Bid must be higher than the current highest bid!');
+            }
+        }
+
+        function addBidToHistory(bid) {
+            const listItem = document.createElement('li');
+            listItem.innerText = `Bid: $${bid}`;
+            historyList.appendChild(listItem);
+            saveBidHistory();
+        }
+
+        function loadBidHistory() {
+            const bids = JSON.parse(localStorage.getItem('bidHistory')) || [];
+            bids.forEach(bid => {
+                const listItem = document.createElement('li');
+                listItem.innerText = `Bid: $${bid}`;
+                historyList.appendChild(listItem);
+            });
+        }
+
+        function saveBidHistory() {
+            const bids = Array.from(historyList.children).map(item => item.innerText.replace('Bid: $', ''));
+            localStorage.setItem('bidHistory', JSON.stringify(bids));
+        }
+    </script>
+</body>
+</html>
