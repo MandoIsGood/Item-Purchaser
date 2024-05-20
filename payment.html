@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Cal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Payment Options</h1>
+        <p>Choose your preferred mode of payment for Cal</p>
+    </header>
+    <main>
+        <section class="payment-options">
+            <div class="option">
+                <h2>Cash</h2>
+                <p>Rent Cal for $20 per day</p>
+                <input type="number" id="rentalDays" placeholder="Enter number of days" min="1">
+                <button class="pay-button" onclick="calculateRentalCost()">Calculate Cost</button>
+                <div id="rentalCost"></div>
+            </div>
+            <div class="option">
+                <h2>Pay with Fun</h2>
+                <p>Enter the auction to win Cal. Highest bidder wins!</p>
+                <button class="pay-button" onclick="location.href='auction.html'">Enter Auction</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <h3>Contact Us</h3>
+        <p>Email: <a href="mailto:mandoisgood@gmail.com">mandoisgood@gmail.com</a></p>
+    </footer>
+
+    <script>
+        function calculateRentalCost() {
+            const days = document.getElementById('rentalDays').value;
+            if (days > 0) {
+                const baseCost = 20 * days;
+                const profit = 5;
+                const tax = 9;
+                const totalCost = baseCost + profit + tax;
+                document.getElementById('rentalCost').innerText = `Total Cost for ${days} day(s): $${totalCost}`;
+            } else {
+                alert('Please enter a valid number of days.');
+            }
+        }
+    </script>
+</body>
+</html>
